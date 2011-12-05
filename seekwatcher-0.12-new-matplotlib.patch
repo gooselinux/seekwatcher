@@ -1,0 +1,66 @@
+On Rawhide I'm getting these errors:
+
+DeprecationWarning: Use 'handletextpad' instead of 'handletextsep'.
+DeprecationWarning: Use 'borderpad' instead of 'pad'.
+DeprecationWarning: Use 'labelspacing' instead of 'labelsep'.
+
+due to this in matplotlib:
+
+        # Take care the deprecated keywords
+        deprecated_kwds = {"pad":"borderpad",
+                           "labelsep":"labelspacing",
+                           "handlelen":"handlelength",
+                           "handletextsep":"handletextpad",
+                           "axespad":"borderaxespad"}
+
+and the below seems to fix it right up (and make the graphs
+look right again...) I don't know what implications this
+has (if any) for older matplotlib...
+
+Signed-off-by: Eric Sandeen <sandeen@redhat.com>
+---
+
+--- a/seekwatcher	2009-03-19 15:21:53.993371450 -0500
++++ b/seekwatcher	2009-03-19 15:23:33.511500429 -0500
+@@ -956,9 +956,9 @@
+ # the bottom graph gets xticks, set it here
+ a.set_xlabel('Time (seconds)')
+ if options.label:
+-    a.legend(loc=(1.01, 0.5), shadow=True, pad=0.5, numpoints=2,
+-                  handletextsep = 0.005,
+-                  labelsep = 0.01,
++    a.legend(loc=(1.01, 0.5), shadow=True, borderpad=0.5, numpoints=2,
++                  handletextpad = 0.005,
++                  labelspacing = 0.01,
+                   prop=FontProperties(size='x-small') )
+ 
+ # next is the seek count graph
+@@ -980,9 +980,9 @@
+ 
+ a.set_ylabel('Seeks / sec')
+ if options.label:
+-    a.legend(loc=(1.01, 0.5), shadow=True, pad=0.5, numpoints=2,
+-                  handletextsep = 0.005,
+-                  labelsep = 0.01,
++    a.legend(loc=(1.01, 0.5), shadow=True, borderpad=0.5, numpoints=2,
++                  handletextpad = 0.005,
++                  labelspacing = 0.01,
+                   prop=FontProperties(size='x-small') )
+ 
+ # and the optional IO graph
+@@ -1008,9 +1008,9 @@
+     ticks.append(yzoommax)
+     a.set_yticks(ticks)
+     a.set_yticklabels( [ str(int(x/2048)) for x in ticks ] )
+-    a.legend(loc=(1.01, 0.5), shadow=True, pad=0.3, numpoints=1,
+-                  handletextsep = 0.005,
+-                  labelsep = 0.01,
++    a.legend(loc=(1.01, 0.5), shadow=True, borderpad=0.3, numpoints=1,
++                  handletextpad = 0.005,
++                  labelspacing = 0.01,
+                   markerscale = 1.1,
+                   prop=FontProperties(size='x-small') )
+     a.set_ylim(yzoommin, yzoommax)
+
+
+
